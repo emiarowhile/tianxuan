@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>TianXuan 天选 Meme Coin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { margin:0; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto; background:#0b0f1a; color:#fff; }
+    header { padding:40px 20px; text-align:center; background:linear-gradient(135deg,#1f2933,#020617); }
+    h1 { font-size:48px; margin:0; }
+    h2 { margin-top:40px; }
+    .container { max-width:1200px; margin:auto; padding:20px; }
+    .card { background:#111827; border-radius:16px; padding:20px; margin-bottom:20px; box-shadow:0 0 20px rgba(0,0,0,0.3); }
+    .row { display:flex; gap:20px; flex-wrap:wrap; }
+    .col { flex:1; min-width:280px; }
+    .btn { display:inline-block; padding:10px 16px; border-radius:10px; background:#2563eb; color:#fff; text-decoration:none; }
+    footer { text-align:center; padding:30px; opacity:0.6; }
+    code { color:#22c55e; word-break: break-all; }
+    iframe { border:none; border-radius:12px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🪙 TianXuan · 天选</h1>
+  <p>公平 · 社区驱动 · Meme 精神</p>
+</header>
+
+<div class="container">
+
+  <!-- 合约地址 -->
+  <div class="card">
+    <h2>📄 合约地址 (CA)</h2>
+    <code id="ca">0xYOUR_CONTRACT_ADDRESS</code>
+    <button class="btn" onclick="copyCA()">复制</button>
+  </div>
+
+  <!-- 实时价格 -->
+  <div class="row">
+    <div class="card col">
+      <h2>💰 实时价格</h2>
+      <div id="price">加载中...</div>
+      <div id="change"></div>
+    </div>
+
+    <div class="card col">
+      <h2>📊 最近走势</h2>
+      <!-- Dexscreener / TradingView iframe -->
+      <iframe
+        id="chart"
+        width="100%"
+        height="360"
+        src="https://dexscreener.com/ethereum/REPLACE_PAIR?embed=1&theme=dark"
+      ></iframe>
+    </div>
+  </div>
+
+  <!-- 项目介绍 -->
+  <div class="card">
+    <h2>🚀 项目介绍</h2>
+    <p>
+      TianXuan（天选）是一个社区驱动的 Meme Token，目标是构建强共识、高传播力的链上文化资产。
+    </p>
+  </div>
+
+  <!-- 链接区 -->
+  <div class="card">
+    <h2>🔗 社区链接</h2>
+    <p>
+      <a class="btn" href="#">Twitter</a>
+      <a class="btn" href="#">Telegram</a>
+      <a class="btn" href="#">Dexscreener</a>
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 TianXuan Meme
+</footer>
+
+<script>
+  const CONTRACT = "0xYOUR_CONTRACT_ADDRESS";
+  const PAIR_API = "https://api.dexscreener.com/latest/dex/tokens/" + CONTRACT;
+
+  document.getElementById('ca').innerText = CONTRACT;
+
+  function copyCA() {
+    navigator.clipboard.writeText(CONTRACT);
+    alert("已复制 CA");
+  }
+
+  async function loadPrice() {
+    try {
+      const res = await fetch(PAIR_API);
+      const data = await res.json();
+      const pair = data.pairs?.[0];
+      if (!pair) return;
+
+      document.getElementById('price').innerText = `价格: $${pair.priceUsd}`;
+      document.getElementById('change').innerText = `24h 变化: ${pair.priceChange.h24}%`;
+    } catch (e) {
+      document.getElementById('price').innerText = "获取失败";
+    }
+  }
+
+  loadPrice();
+  setInterval(loadPrice, 10000);
+</script>
+
+</body>
+</html>
