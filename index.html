@@ -16,72 +16,212 @@
     .btn { display:inline-block; padding:10px 16px; border-radius:10px; background:#2563eb; color:#fff; text-decoration:none; }
     footer { text-align:center; padding:30px; opacity:0.6; }
     code { color:#22c55e; word-break: break-all; }
-    iframe { border:none; border-radius:12px; }
+    iframe { border:none; }
+    /* 匿名评论样式 */
+    .comment-form { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
+    .comment-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .comment-row input { flex:1; min-width:140px; }
+    .comment-form input,
+    .comment-form textarea {
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #374151;
+      background:#020617;
+      color:#e5e7eb;
+      font-family:inherit;
+    }
+    .comment-form textarea { min-height:80px; resize:vertical; }
+    .comment-list { margin-top:16px; display:flex; flex-direction:column; gap:10px; max-height:260px; overflow-y:auto; }
+    .comment-item { display:flex; gap:10px; padding:10px; border-radius:10px; background:#020617; }
+    .comment-avatar { width:40px; height:40px; border-radius:50%; object-fit:cover; background:#111827; }
+    .comment-meta { font-size:12px; opacity:0.7; }
+    .comment-name { font-weight:600; margin-right:8px; }
+    /* 装修中遮罩样式 */
+    .maintenance-overlay {
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      background:radial-gradient(circle at top, #1e293b, #020617);
+      color:#e5e7eb;
+      z-index:999;
+      text-align:center;
+      padding:20px;
+    }
+    .lang-toggle {
+      position:absolute;
+      top:20px;
+      right:20px;
+      display:flex;
+      gap:6px;
+      background:rgba(15,23,42,0.85);
+      border-radius:999px;
+      padding:4px 8px;
+      border:1px solid rgba(148,163,184,0.5);
+      font-size:13px;
+    }
+    .lang-toggle button {
+      border:none;
+      background:transparent;
+      color:#9ca3af;
+      cursor:pointer;
+      padding:4px 8px;
+      border-radius:999px;
+    }
+    .lang-toggle button.active {
+      background:#2563eb;
+      color:#fff;
+    }
+    .maintenance-title {
+      font-size:40px;
+      letter-spacing:4px;
+      margin-bottom:16px;
+    }
+    .maintenance-subtitle {
+      font-size:18px;
+      opacity:0.8;
+      margin-bottom:32px;
+    }
+    .maintenance-badge {
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.6);
+      font-size:14px;
+      margin-bottom:20px;
+      text-transform:uppercase;
+      letter-spacing:0.15em;
+    }
+    .maintenance-footer {
+      font-size:13px;
+      opacity:0.6;
+      margin-top:24px;
+    }
+    .main-hidden {
+      display:none;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>🪙 TianXuan · 天选</h1>
-  <p>公平 · 社区驱动 · Meme 精神</p>
-</header>
-
-<div class="container">
-
-  <!-- 合约地址 -->
-  <div class="card">
-    <h2>📄 合约地址 (CA)</h2>
-    <code id="ca">0xYOUR_CONTRACT_ADDRESS</code>
-    <button class="btn" onclick="copyCA()">复制</button>
+<!-- 装修中页面（当前对外展示） -->
+<div class="maintenance-overlay">
+  <div class="lang-toggle">
+    <button id="btn-zh" class="active" onclick="setLang('zh')">中</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
   </div>
-
-  <!-- 实时价格 -->
-  <div class="row">
-    <div class="card col">
-      <h2>💰 实时价格</h2>
-      <div id="price">加载中...</div>
-      <div id="change"></div>
-    </div>
-
-    <div class="card col">
-      <h2>📊 最近走势</h2>
-      <!-- Dexscreener / TradingView iframe -->
-      <iframe
-        id="chart"
-        width="100%"
-        height="360"
-        src="https://dexscreener.com/ethereum/REPLACE_PAIR?embed=1&theme=dark"
-      ></iframe>
-    </div>
-  </div>
-
-  <!-- 项目介绍 -->
-  <div class="card">
-    <h2>🚀 项目介绍</h2>
-    <p>
-      TianXuan（天选）是一个社区驱动的 Meme Token，目标是构建强共识、高传播力的链上文化资产。
-    </p>
-  </div>
-
-  <!-- 链接区 -->
-  <div class="card">
-    <h2>🔗 社区链接</h2>
-    <p>
-      <a class="btn" href="#">Twitter</a>
-      <a class="btn" href="#">Telegram</a>
-      <a class="btn" href="#">Dexscreener</a>
-    </p>
-  </div>
-
+  <div class="maintenance-badge" id="maintBadge">SITE UNDER RENOVATION</div>
+  <div class="maintenance-title" id="maintTitle">正在装修中</div>
+  <div class="maintenance-subtitle" id="maintSubtitle">TianXuan 官网正在升级中，敬请期待全新版本上线。</div>
+  <div class="maintenance-footer" id="maintFooter">TianXuan · 天选 · Meme Project</div>
 </div>
 
-<footer>
-  © 2026 TianXuan Meme
-</footer>
+<!-- 正式站点内容（暂时隐藏） -->
+<div id="main-app" class="main-hidden">
+  <header>
+    <h1>🪙 TianXuan · 天选</h1>
+    <p>公平 · 社区驱动 · Meme 精神</p>
+  </header>
+
+  <div class="container">
+
+    <!-- 合约地址 -->
+    <div class="card">
+      <h2>📄 合约地址 (CA)</h2>
+      <code id="ca">0x903f9799e09ae894f0f5879e47e925f34bdf7777</code>
+      <button class="btn" onclick="copyCA()">复制</button>
+    </div>
+
+    <!-- 奖池余额展示区域（具体位置后续可根据需求调整） -->
+    <div class="card" id="pool-card">
+      <h2>🏆 当前奖池余额</h2>
+      <div id="poolBalance">暂未接入数据</div>
+    </div>
+
+    <!-- 实时价格 -->
+    <div class="row">
+      <div class="card col">
+        <h2>💰 实时价格</h2>
+        <div id="price">加载中...</div>
+        <div id="change"></div>
+      </div>
+
+    </div>
+
+    <!-- 项目介绍 -->
+    <div class="card">
+      <h2>🚀 项目介绍</h2>
+      <p>
+        TianXuan（天选）是一个社区驱动的 Meme Token，目标是构建强共识、高传播力的链上文化资产。
+      </p>
+    </div>
+
+    <!-- 链接区 -->
+    <div class="card">
+      <h2>🔗 社区链接</h2>
+      <p>
+        <a class="btn" href="#">Twitter</a>
+        <a class="btn" href="#">Telegram</a>
+        <a class="btn" href="https://dexscreener.com/bsc/0x903f9799e09ae894f0f5879e47e925f34bdf7777" target="_blank" rel="noopener noreferrer">Dexscreener</a>
+      </p>
+    </div>
+
+    <!-- 匿名评论区域（暂时关闭，后续可重新启用）
+    <div class="card" id="comments">
+      <h2>💬 匿名评论 / Anonymous Feedback</h2>
+      <p>可以随意填写用户名和头像链接，留言你对 TianXuan 的期待功能或任何评论（仅保存在你当前浏览器）。</p>
+      <form class="comment-form" onsubmit="addComment(event)">
+        <div class="comment-row">
+          <input id="commentName" type="text" placeholder="用户名（可匿名，例如：天选持有者）" />
+          <input id="commentAvatar" type="text" placeholder="头像图片链接（可选）" />
+        </div>
+          <textarea id="commentText" placeholder="写下你期待的网站功能、产品想法或任何评论..."></textarea>
+          <button class="btn" type="submit">提交评论</button>
+        </form>
+      <div class="comment-list" id="commentList"></div>
+    </div>
+    -->
+
+  </div>
+
+  <footer>
+    © 2026 TianXuan Meme
+  </footer>
+</div>
 
 <script>
-  const CONTRACT = "0xYOUR_CONTRACT_ADDRESS";
+  const CONTRACT = "0x903f9799e09ae894f0f5879e47e925f34bdf7777";
   const PAIR_API = "https://api.dexscreener.com/latest/dex/tokens/" + CONTRACT;
+  const COMMENTS_KEY = "tx_comments";
+
+  // 简单的中英文文案
+  const texts = {
+    zh: {
+      badge: 'SITE UNDER RENOVATION',
+      title: '正在装修中',
+      subtitle: 'TianXuan 官网正在升级中，敬请期待全新版本上线。',
+      footer: 'TianXuan · 天选 · Meme Project',
+    },
+    en: {
+      badge: 'SITE UNDER RENOVATION',
+      title: 'UNDER CONSTRUCTION',
+      subtitle: 'The TianXuan official website is being upgraded. Stay tuned for the new version.',
+      footer: 'TianXuan · Meme Project',
+    },
+  };
+
+  function setLang(lang) {
+    const t = texts[lang] || texts.zh;
+    document.getElementById('maintBadge').innerText = t.badge;
+    document.getElementById('maintTitle').innerText = t.title;
+    document.getElementById('maintSubtitle').innerText = t.subtitle;
+    document.getElementById('maintFooter').innerText = t.footer;
+
+    // 按钮高亮
+    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  }
 
   document.getElementById('ca').innerText = CONTRACT;
 
@@ -106,6 +246,76 @@
 
   loadPrice();
   setInterval(loadPrice, 10000);
+
+  // 匿名评论：本地存储在浏览器 localStorage，中英文用户都可使用
+  function loadComments() {
+    try {
+      const raw = localStorage.getItem(COMMENTS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveComments(list) {
+    localStorage.setItem(COMMENTS_KEY, JSON.stringify(list));
+  }
+
+  function renderComments() {
+    const list = loadComments();
+    const container = document.getElementById('commentList');
+    if (!container) return;
+    if (!list.length) {
+      container.innerHTML = '<div style="font-size:13px;opacity:0.7;">还没有评论，做第一个留言的人吧～</div>';
+      return;
+    }
+    container.innerHTML = list.map(item => {
+      const safeName = item.name || '匿名用户';
+      const safeText = (item.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const timeText = item.time || '';
+      const avatar = item.avatar || 'https://avatars.githubusercontent.com/u/0?v=4';
+      return `
+        <div class="comment-item">
+          <img class="comment-avatar" src="${avatar}" alt="avatar" onerror="this.style.visibility='hidden';" />
+          <div>
+            <div class="comment-meta">
+              <span class="comment-name">${safeName}</span>
+              <span>${timeText}</span>
+            </div>
+            <div>${safeText}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function addComment(event) {
+    event.preventDefault();
+    const nameInput = document.getElementById('commentName');
+    const avatarInput = document.getElementById('commentAvatar');
+    const textInput = document.getElementById('commentText');
+    if (!textInput || !textInput.value.trim()) {
+      alert('请先输入评论内容');
+      return;
+    }
+    const list = loadComments();
+    list.unshift({
+      name: nameInput.value.trim() || '匿名用户',
+      avatar: avatarInput.value.trim(),
+      text: textInput.value.trim(),
+      time: new Date().toLocaleString('zh-CN'),
+    });
+    // 只保留最近 50 条
+    if (list.length > 50) list.length = 50;
+    saveComments(list);
+    nameInput.value = '';
+    avatarInput.value = '';
+    textInput.value = '';
+    renderComments();
+  }
+
+  // 初始渲染评论列表
+  renderComments();
 </script>
 
 </body>
