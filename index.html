@@ -5,50 +5,249 @@
   <title>TianXuan 天选 Meme Coin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body { margin:0; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto; background:#0b0f1a; color:#fff; }
-    header { padding:40px 20px; text-align:center; background:linear-gradient(135deg,#1f2933,#020617); }
-    h1 { font-size:48px; margin:0; }
-    h2 { margin-top:40px; }
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+    
+    * { box-sizing:border-box; }
+    body { 
+      margin:0; 
+      font-family: 'Noto Serif SC', -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,serif; 
+      background:#000; 
+      color:#fff; 
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255,215,0,0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255,215,0,0.03) 0%, transparent 50%);
+      min-height:100vh;
+    }
+    
+    /* 金色主题变量 */
+    :root {
+      --gold: #FFD700;
+      --gold-light: #FFED4E;
+      --gold-dark: #D4AF37;
+      --gold-glow: rgba(255,215,0,0.5);
+    }
+    
+    header { 
+      padding:60px 20px 40px; 
+      text-align:center; 
+      background:linear-gradient(180deg, rgba(0,0,0,0.9) 0%, #000 100%);
+      position:relative;
+      overflow:hidden;
+    }
+    header::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0; bottom:0;
+      background:radial-gradient(ellipse at center, rgba(255,215,0,0.1) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .logo-container {
+      position:relative;
+      margin-bottom:20px;
+    }
+    .logo-img {
+      max-width:200px;
+      height:auto;
+      filter:drop-shadow(0 0 20px var(--gold-glow));
+      animation:glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { filter:drop-shadow(0 0 20px var(--gold-glow)); }
+      to { filter:drop-shadow(0 0 30px rgba(255,215,0,0.8)); }
+    }
+    h1 { 
+      font-size:56px; 
+      margin:20px 0 10px; 
+      background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow:0 0 30px var(--gold-glow);
+      font-weight:700;
+      letter-spacing:2px;
+    }
+    header p {
+      font-size:18px;
+      color:rgba(255,215,0,0.8);
+      margin:0;
+      letter-spacing:1px;
+    }
+    h2 { 
+      margin-top:0; 
+      margin-bottom:20px;
+      font-size:24px;
+      color:var(--gold);
+      font-weight:600;
+      text-shadow:0 0 10px var(--gold-glow);
+    }
     .container { max-width:1200px; margin:auto; padding:20px; }
-    .card { background:#111827; border-radius:16px; padding:20px; margin-bottom:20px; box-shadow:0 0 20px rgba(0,0,0,0.3); }
+    .card { 
+      background:linear-gradient(135deg, rgba(20,20,20,0.95) 0%, rgba(10,10,10,0.95) 100%);
+      border-radius:20px; 
+      padding:30px; 
+      margin-bottom:24px; 
+      box-shadow:0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.1);
+      border:1px solid rgba(255,215,0,0.15);
+      position:relative;
+      transition:all 0.3s ease;
+    }
+    .card:hover {
+      box-shadow:0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,215,0,0.3), 0 0 30px rgba(255,215,0,0.1);
+      transform:translateY(-2px);
+    }
+    .card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height:2px;
+      background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity:0.5;
+    }
     .row { display:flex; gap:20px; flex-wrap:wrap; }
     .col { flex:1; min-width:280px; }
-    .btn { display:inline-block; padding:10px 16px; border-radius:10px; background:#2563eb; color:#fff; text-decoration:none; }
-    footer { text-align:center; padding:30px; opacity:0.6; }
-    code { color:#22c55e; word-break: break-all; }
-    iframe { border:none; }
-    /* 匿名评论样式 */
-    .comment-form { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
-    .comment-row { display:flex; gap:10px; flex-wrap:wrap; }
-    .comment-row input { flex:1; min-width:140px; }
-    .comment-form input,
-    .comment-form textarea {
-      padding:8px 10px;
-      border-radius:8px;
-      border:1px solid #374151;
-      background:#020617;
-      color:#e5e7eb;
-      font-family:inherit;
+    .btn { 
+      display:inline-block; 
+      padding:12px 24px; 
+      border-radius:12px; 
+      background:linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+      color:#000; 
+      text-decoration:none; 
+      font-weight:600;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 4px 15px rgba(255,215,0,0.3);
+      transition:all 0.3s ease;
+      letter-spacing:0.5px;
     }
-    .comment-form textarea { min-height:80px; resize:vertical; }
-    .comment-list { margin-top:16px; display:flex; flex-direction:column; gap:10px; max-height:260px; overflow-y:auto; }
-    .comment-item { display:flex; gap:10px; padding:10px; border-radius:10px; background:#020617; }
-    .comment-avatar { width:40px; height:40px; border-radius:50%; object-fit:cover; background:#111827; }
-    .comment-meta { font-size:12px; opacity:0.7; }
-    .comment-name { font-weight:600; margin-right:8px; }
+    .btn:hover {
+      box-shadow:0 6px 20px rgba(255,215,0,0.5);
+      transform:translateY(-2px);
+      background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    }
+    footer { 
+      text-align:center; 
+      padding:40px 30px; 
+      opacity:0.7;
+      color:rgba(255,215,0,0.6);
+      font-size:14px;
+    }
+    code { 
+      color:var(--gold-light); 
+      word-break: break-all; 
+      background:rgba(255,215,0,0.1);
+      padding:8px 12px;
+      border-radius:8px;
+      border:1px solid rgba(255,215,0,0.2);
+      font-family:'Courier New', monospace;
+      display:inline-block;
+      margin:8px 0;
+    }
+    iframe { border:none; }
+    /* Comentario 评论样式适配 */
+    #comentario {
+      margin-top: 16px;
+    }
     /* 装修中遮罩样式 */
     .maintenance-overlay {
       position:fixed;
       inset:0;
-      display:flex;
+      display:flex; /* 显示维护界面 */
       align-items:center;
       justify-content:center;
       flex-direction:column;
-      background:radial-gradient(circle at top, #1e293b, #020617);
-      color:#e5e7eb;
+      background:radial-gradient(circle at center, rgba(0,0,0,0.95) 0%, #000 100%);
+      color:#fff;
       z-index:999;
       text-align:center;
       padding:20px;
+      overflow-y:auto;
+    }
+    .maintenance-overlay::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0; bottom:0;
+      background:radial-gradient(ellipse at center, rgba(255,215,0,0.15) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .maintenance-logo-container {
+      position:relative;
+      z-index:1;
+      margin-bottom:30px;
+      cursor:pointer;
+      transition:transform 0.3s ease;
+    }
+    .maintenance-logo-container:hover {
+      transform:scale(1.05);
+    }
+    .maintenance-logo {
+      max-width:250px;
+      width:100%;
+      height:auto;
+      filter:drop-shadow(0 0 30px var(--gold-glow));
+      animation:maintenanceGlow 3s ease-in-out infinite alternate;
+      position:relative;
+      transition:all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .maintenance-logo.moved {
+      transform:translateX(-200%) rotate(-45deg);
+      opacity:0;
+      pointer-events:none;
+    }
+    .easter-egg-text {
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%) scale(0);
+      opacity:0;
+      max-width:500px;
+      width:90%;
+      padding:30px;
+      background:linear-gradient(135deg, rgba(20,20,20,0.98) 0%, rgba(10,10,10,0.98) 100%);
+      border-radius:20px;
+      border:2px solid var(--gold);
+      box-shadow:0 8px 40px rgba(0,0,0,0.8), 0 0 0 4px rgba(255,215,0,0.2);
+      color:var(--gold-light);
+      font-size:14px;
+      line-height:1.6;
+      text-align:center;
+      z-index:10;
+      transition:all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events:none;
+    }
+    .easter-egg-text.show {
+      transform:translate(-50%, -50%) scale(1);
+      opacity:1;
+      pointer-events:auto;
+    }
+    .easter-egg-close {
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      background:rgba(255,215,0,0.2);
+      border:1px solid var(--gold);
+      color:var(--gold);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      line-height:1;
+      transition:all 0.3s ease;
+    }
+    .easter-egg-close:hover {
+      background:rgba(255,215,0,0.3);
+      transform:rotate(90deg);
+    }
+    @keyframes maintenanceGlow {
+      from { 
+        filter:drop-shadow(0 0 30px var(--gold-glow)) brightness(1);
+      }
+      to { 
+        filter:drop-shadow(0 0 50px rgba(255,215,0,0.8)) brightness(1.1);
+      }
     }
     .lang-toggle {
       position:absolute;
@@ -75,28 +274,107 @@
       color:#fff;
     }
     .maintenance-title {
-      font-size:40px;
+      font-size:48px;
       letter-spacing:4px;
       margin-bottom:16px;
+      background:linear-gradient(
+        90deg,
+        var(--gold) 0%,
+        var(--gold-light) 25%,
+        var(--gold) 50%,
+        var(--gold-light) 75%,
+        var(--gold) 100%
+      );
+      background-size:100% 100%;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow:0 0 30px var(--gold-glow);
+      font-weight:700;
+      position:relative;
+      z-index:1;
     }
     .maintenance-subtitle {
       font-size:18px;
-      opacity:0.8;
+      color:rgba(255,215,0,0.9);
       margin-bottom:32px;
+      position:relative;
+      z-index:1;
     }
     .maintenance-badge {
-      padding:6px 14px;
+      padding:8px 18px;
       border-radius:999px;
-      border:1px solid rgba(148,163,184,0.6);
+      border:1px solid rgba(255,215,0,0.5);
+      background:rgba(255,215,0,0.1);
       font-size:14px;
       margin-bottom:20px;
       text-transform:uppercase;
       letter-spacing:0.15em;
+      color:var(--gold);
+      position:relative;
+      z-index:1;
     }
     .maintenance-footer {
       font-size:13px;
-      opacity:0.6;
+      color:rgba(255,215,0,0.6);
       margin-top:24px;
+      position:relative;
+      z-index:1;
+    }
+    .maintenance-info {
+      margin-top:40px;
+      max-width:600px;
+      width:100%;
+      position:relative;
+      z-index:1;
+    }
+    .maintenance-info-card {
+      background:linear-gradient(135deg, rgba(20,20,20,0.95) 0%, rgba(10,10,10,0.95) 100%);
+      border-radius:16px;
+      padding:20px;
+      margin-bottom:16px;
+      border:1px solid rgba(255,215,0,0.2);
+      box-shadow:0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.1);
+      position:relative;
+      overflow:hidden;
+    }
+    .maintenance-info-item {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 0;
+      border-bottom:1px solid rgba(255,215,0,0.1);
+    }
+    .maintenance-info-item:last-child {
+      border-bottom:none;
+    }
+    .maintenance-info-label {
+      color:rgba(255,215,0,0.8);
+      font-size:14px;
+      font-weight:500;
+    }
+    .maintenance-info-value {
+      color:var(--gold-light);
+      font-size:16px;
+      font-weight:600;
+      text-align:right;
+    }
+    .maintenance-info-value code {
+      font-size:12px;
+      padding:4px 8px;
+      background:rgba(255,215,0,0.1);
+      border-radius:6px;
+      border:1px solid rgba(255,215,0,0.2);
+    }
+    .maintenance-info-link {
+      color:var(--gold);
+      text-decoration:none;
+      font-weight:600;
+      transition:all 0.3s ease;
+    }
+    .maintenance-info-link:hover {
+      color:var(--gold-light);
+      text-shadow:0 0 10px var(--gold-glow);
     }
     .main-hidden {
       display:none;
@@ -111,16 +389,57 @@
     <button id="btn-zh" class="active" onclick="setLang('zh')">中</button>
     <button id="btn-en" onclick="setLang('en')">EN</button>
   </div>
+  
+  <!-- Logo 展示 -->
+  <div class="maintenance-logo-container" onclick="showEasterEgg()" ontouchstart="showEasterEgg()">
+    <img src="resource/tianxuan.jpg" alt="TianXuan Logo" class="maintenance-logo" id="maintenanceLogo" />
+    <div class="easter-egg-text" id="easterEggText">
+      <div class="easter-egg-close" onclick="hideEasterEgg(event)">×</div>
+      <p id="easterEggTitle" style="margin:0; font-weight:600; color:var(--gold); margin-bottom:15px;">开发者的话</p>
+      <p id="easterEggContent" style="margin:0;">
+        项目是两个人利用空闲时间开发，另一个该死的开发者tmd去参加公司年会了，导致另一个开发者根本忙不过来
+      </p>
+    </div>
+  </div>
+  
   <div class="maintenance-badge" id="maintBadge">SITE UNDER RENOVATION</div>
   <div class="maintenance-title" id="maintTitle">正在装修中</div>
   <div class="maintenance-subtitle" id="maintSubtitle">TianXuan 官网正在升级中，敬请期待全新版本上线。</div>
+  
+  <!-- 信息展示卡片 -->
+  <div class="maintenance-info">
+    <div class="maintenance-info-card">
+      <div class="maintenance-info-item">
+        <span class="maintenance-info-label">合约地址 (CA)</span>
+        <span class="maintenance-info-value">
+          <code id="maintCA" style="cursor:pointer;" onclick="copyMaintenanceCA()" title="点击复制">0x30d2600e8e39de063ecc8d8460afabc495fc7777</code>
+        </span>
+      </div>
+      <div class="maintenance-info-item">
+        <span class="maintenance-info-label">Telegram</span>
+        <span class="maintenance-info-value">
+          <a href="#" id="maintTG" class="maintenance-info-link" target="_blank">加入社区</a>
+        </span>
+      </div>
+      <div class="maintenance-info-item">
+        <span class="maintenance-info-label">Twitter</span>
+        <span class="maintenance-info-value">
+          <a href="#" id="maintTwitter" class="maintenance-info-link" target="_blank">关注我们</a>
+        </span>
+      </div>
+    </div>
+  </div>
+  
   <div class="maintenance-footer" id="maintFooter">TianXuan · 天选 · Meme Project</div>
 </div>
 
-<!-- 正式站点内容（暂时隐藏） -->
+<!-- 正式站点内容（已隐藏） -->
 <div id="main-app" class="main-hidden">
   <header>
-    <h1>🪙 TianXuan · 天选</h1>
+    <div class="logo-container">
+      <img src="resource/tianxuan.jpg" alt="TianXuan Logo" class="logo-img" />
+    </div>
+    <h1>TianXuan · 天选</h1>
     <p>公平 · 社区驱动 · Meme 精神</p>
   </header>
 
@@ -128,60 +447,53 @@
 
     <!-- 合约地址 -->
     <div class="card">
-      <h2>📄 合约地址 (CA)</h2>
-      <code id="ca">0x903f9799e09ae894f0f5879e47e925f34bdf7777</code>
-      <button class="btn" onclick="copyCA()">复制</button>
+      <h2>合约地址 (CA)</h2>
+      <code id="ca">0x30d2600e8e39de063ecc8d8460afabc495fc7777</code>
+        <button class="btn" onclick="copyCA()">复制地址</button>
     </div>
 
     <!-- 奖池余额展示区域（具体位置后续可根据需求调整） -->
     <div class="card" id="pool-card">
-      <h2>🏆 当前奖池余额</h2>
-      <div id="poolBalance">暂未接入数据</div>
+      <h2>当前奖池余额</h2>
+      <div id="poolBalance" style="font-size:32px; color:var(--gold); font-weight:700; text-shadow:0 0 20px var(--gold-glow);">
+        暂未接入数据
+      </div>
     </div>
 
     <!-- 实时价格 -->
     <div class="row">
       <div class="card col">
-        <h2>💰 实时价格</h2>
-        <div id="price">加载中...</div>
-        <div id="change"></div>
+        <h2>实时价格</h2>
+        <div id="price" style="font-size:28px; color:var(--gold-light); font-weight:600; margin:10px 0;">加载中...</div>
+        <div id="change" style="font-size:16px; color:rgba(255,215,0,0.8);"></div>
       </div>
-
     </div>
 
     <!-- 项目介绍 -->
     <div class="card">
-      <h2>🚀 项目介绍</h2>
-      <p>
-        TianXuan（天选）是一个社区驱动的 Meme Token，目标是构建强共识、高传播力的链上文化资产。
+      <h2>项目介绍</h2>
+      <p style="line-height:1.8; font-size:16px; color:rgba(255,255,255,0.9);">
+        TianXuan（天选）是一个社区驱动的 Meme Token，目标是构建强共识、高传播力的链上文化资产。<br>
+        我们相信，真正的价值来自于社区的共识与传播，每一个持有者都是天选之人。
       </p>
     </div>
 
     <!-- 链接区 -->
     <div class="card">
-      <h2>🔗 社区链接</h2>
+      <h2>社区链接</h2>
       <p>
-        <a class="btn" href="#">Twitter</a>
-        <a class="btn" href="#">Telegram</a>
-        <a class="btn" href="https://dexscreener.com/bsc/0x903f9799e09ae894f0f5879e47e925f34bdf7777" target="_blank" rel="noopener noreferrer">Dexscreener</a>
+        <a class="btn" href="https://x.com/tianxuan_bsc?s=21" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a class="btn" href="https://t.me/+tPZsjvGWchs5NTIx" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="btn" href="https://dexscreener.com/bsc/0x30d2600e8e39de063ecc8d8460afabc495fc7777" target="_blank" rel="noopener noreferrer">Dexscreener</a>
       </p>
     </div>
 
-    <!-- 匿名评论区域（暂时关闭，后续可重新启用）
+    <!-- Giscus 评论系统 -->
     <div class="card" id="comments">
-      <h2>💬 匿名评论 / Anonymous Feedback</h2>
-      <p>可以随意填写用户名和头像链接，留言你对 TianXuan 的期待功能或任何评论（仅保存在你当前浏览器）。</p>
-      <form class="comment-form" onsubmit="addComment(event)">
-        <div class="comment-row">
-          <input id="commentName" type="text" placeholder="用户名（可匿名，例如：天选持有者）" />
-          <input id="commentAvatar" type="text" placeholder="头像图片链接（可选）" />
-        </div>
-          <textarea id="commentText" placeholder="写下你期待的网站功能、产品想法或任何评论..."></textarea>
-          <button class="btn" type="submit">提交评论</button>
-        </form>
-      <div class="comment-list" id="commentList"></div>
+      <h2>评论 / Comments</h2>
+      <p>分享你对 TianXuan 的期待功能、想法或任何评论（基于 GitHub Discussions）。</p>
+      <div class="giscus"></div>
     </div>
-    -->
 
   </div>
 
@@ -191,8 +503,12 @@
 </div>
 
 <script>
-  const CONTRACT = "0x903f9799e09ae894f0f5879e47e925f34bdf7777";
+  const CONTRACT = "0x30d2600e8e39de063ecc8d8460afabc495fc7777";
   const PAIR_API = "https://api.dexscreener.com/latest/dex/tokens/" + CONTRACT;
+  
+  // 社区链接配置
+  const TG_LINK = "https://t.me/+tPZsjvGWchs5NTIx";
+  const TWITTER_LINK = "https://x.com/tianxuan_bsc?s=21";
   const COMMENTS_KEY = "tx_comments";
 
   // 简单的中英文文案
@@ -202,21 +518,35 @@
       title: '正在装修中',
       subtitle: 'TianXuan 官网正在升级中，敬请期待全新版本上线。',
       footer: 'TianXuan · 天选 · Meme Project',
+      easterEggTitle: '开发者的话',
+      easterEggContent: '项目是两个人利用空闲时间开发，另一个该死的开发者tmd去参加公司年会了，导致另一个开发者根本忙不过来',
     },
     en: {
       badge: 'SITE UNDER RENOVATION',
       title: 'UNDER CONSTRUCTION',
       subtitle: 'The TianXuan official website is being upgraded. Stay tuned for the new version.',
       footer: 'TianXuan · Meme Project',
+      easterEggTitle: "Developer's Note",
+      easterEggContent: 'This project is developed by two people in their spare time. The other damn developer went to the company annual party, leaving the other developer completely overwhelmed.',
     },
   };
 
+  // 当前语言状态
+  let currentLang = 'zh';
+
   function setLang(lang) {
+    currentLang = lang;
     const t = texts[lang] || texts.zh;
     document.getElementById('maintBadge').innerText = t.badge;
     document.getElementById('maintTitle').innerText = t.title;
     document.getElementById('maintSubtitle').innerText = t.subtitle;
     document.getElementById('maintFooter').innerText = t.footer;
+
+    // 更新开发者的话（如果彩蛋已显示）
+    const easterEggTitle = document.getElementById('easterEggTitle');
+    const easterEggContent = document.getElementById('easterEggContent');
+    if (easterEggTitle) easterEggTitle.innerText = t.easterEggTitle;
+    if (easterEggContent) easterEggContent.innerText = t.easterEggContent;
 
     // 按钮高亮
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
@@ -225,97 +555,193 @@
 
   document.getElementById('ca').innerText = CONTRACT;
 
+  // 彩蛋功能：点击 Logo 显示开发者的话
+  function showEasterEgg() {
+    const logo = document.getElementById('maintenanceLogo');
+    const text = document.getElementById('easterEggText');
+    
+    if (logo && text) {
+      // 确保显示当前语言的文本
+      const t = texts[currentLang] || texts.zh;
+      const easterEggTitle = document.getElementById('easterEggTitle');
+      const easterEggContent = document.getElementById('easterEggContent');
+      if (easterEggTitle) easterEggTitle.innerText = t.easterEggTitle;
+      if (easterEggContent) easterEggContent.innerText = t.easterEggContent;
+      
+      logo.classList.add('moved');
+      setTimeout(() => {
+        text.classList.add('show');
+      }, 300);
+    }
+  }
+  
+  function hideEasterEgg(event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    const logo = document.getElementById('maintenanceLogo');
+    const text = document.getElementById('easterEggText');
+    
+    if (logo && text) {
+      text.classList.remove('show');
+      setTimeout(() => {
+        logo.classList.remove('moved');
+      }, 300);
+    }
+  }
+  
+  // 点击外部区域关闭彩蛋
+  document.addEventListener('click', function(event) {
+    const text = document.getElementById('easterEggText');
+    const logoContainer = document.querySelector('.maintenance-logo-container');
+    
+    if (text && text.classList.contains('show')) {
+      if (!logoContainer.contains(event.target) && !event.target.closest('.easter-egg-text')) {
+        hideEasterEgg();
+      }
+    }
+  });
+
   function copyCA() {
     navigator.clipboard.writeText(CONTRACT);
-    alert("已复制 CA");
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.innerText = '✓ 已复制';
+    btn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)';
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.style.background = '';
+    }, 2000);
   }
 
   async function loadPrice() {
     try {
       const res = await fetch(PAIR_API);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
-      const pair = data.pairs?.[0];
-      if (!pair) return;
+      
+      if (!data.pairs || data.pairs.length === 0) {
+        document.getElementById('price').innerHTML = '<span style="opacity:0.7;">代币未在 Dexscreener 上架</span>';
+        document.getElementById('change').innerHTML = '<a href="https://dexscreener.com/bsc/' + CONTRACT + '" target="_blank" style="color:var(--gold);">查看 Dexscreener</a>';
+        return;
+      }
+      
+      const pair = data.pairs[0];
+      if (!pair.priceUsd) {
+        document.getElementById('price').innerHTML = '<span style="opacity:0.7;">价格数据暂不可用</span>';
+        return;
+      }
 
-      document.getElementById('price').innerText = `价格: $${pair.priceUsd}`;
-      document.getElementById('change').innerText = `24h 变化: ${pair.priceChange.h24}%`;
+      const price = parseFloat(pair.priceUsd);
+      const change = pair.priceChange?.h24 ? parseFloat(pair.priceChange.h24) : null;
+      
+      document.getElementById('price').innerHTML = `$${price.toFixed(6)}`;
+      
+      if (change !== null) {
+        const changeColor = change >= 0 ? '#00ff88' : '#ff4444';
+        const changeIcon = change >= 0 ? '↑' : '↓';
+        document.getElementById('change').innerHTML = `${changeIcon} 24h 变化: <span style="color:${changeColor}">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>`;
+      } else {
+        document.getElementById('change').innerHTML = '<span style="opacity:0.7;">24h 变化数据暂不可用</span>';
+      }
     } catch (e) {
-      document.getElementById('price').innerText = "获取失败";
+      console.error('价格加载失败:', e);
+      document.getElementById('price').innerHTML = '<span style="opacity:0.7;">获取失败</span>';
+      document.getElementById('change').innerHTML = '<a href="https://dexscreener.com/bsc/' + CONTRACT + '" target="_blank" style="color:var(--gold);">手动查看</a>';
     }
   }
 
   loadPrice();
   setInterval(loadPrice, 10000);
 
-  // 匿名评论：本地存储在浏览器 localStorage，中英文用户都可使用
-  function loadComments() {
+  // 维护页面复制 CA
+  function copyMaintenanceCA() {
+    navigator.clipboard.writeText(CONTRACT);
+    const codeEl = document.getElementById('maintCA');
+    const originalText = codeEl.innerText;
+    codeEl.innerText = '✓ 已复制';
+    codeEl.style.color = '#00ff88';
+    setTimeout(() => {
+      codeEl.innerText = originalText;
+      codeEl.style.color = '';
+    }, 2000);
+  }
+
+  // 从多个数据源获取价格
+  async function fetchPriceFromMultipleSources() {
+    // 方法1: Dexscreener API
     try {
-      const raw = localStorage.getItem(COMMENTS_KEY);
-      return raw ? JSON.parse(raw) : [];
+      const res = await fetch(PAIR_API);
+      if (!res.ok) throw new Error('Dexscreener API failed');
+      const data = await res.json();
+      
+      if (data.pairs && data.pairs.length > 0) {
+        const pair = data.pairs[0];
+        if (pair.priceUsd) {
+          return {
+            price: parseFloat(pair.priceUsd),
+            change: pair.priceChange?.h24 ? parseFloat(pair.priceChange.h24) : null,
+            holders: pair.holders || pair.holderCount || null,
+            source: 'Dexscreener'
+          };
+        }
+      }
     } catch (e) {
-      return [];
+      console.log('Dexscreener API failed:', e);
     }
-  }
-
-  function saveComments(list) {
-    localStorage.setItem(COMMENTS_KEY, JSON.stringify(list));
-  }
-
-  function renderComments() {
-    const list = loadComments();
-    const container = document.getElementById('commentList');
-    if (!container) return;
-    if (!list.length) {
-      container.innerHTML = '<div style="font-size:13px;opacity:0.7;">还没有评论，做第一个留言的人吧～</div>';
-      return;
+    
+    // 方法2: 尝试从 CoinGecko API (如果代币已上架)
+    try {
+      // 注意：需要代币的 CoinGecko ID，这里作为备用方案
+      // const geckoRes = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/bsc?contract_addresses=${CONTRACT}&vs_currencies=usd`);
+      // const geckoData = await geckoRes.json();
+      // if (geckoData[CONTRACT.toLowerCase()]) {
+      //   return { price: geckoData[CONTRACT.toLowerCase()].usd, source: 'CoinGecko' };
+      // }
+    } catch (e) {
+      console.log('CoinGecko API failed:', e);
     }
-    container.innerHTML = list.map(item => {
-      const safeName = item.name || '匿名用户';
-      const safeText = (item.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const timeText = item.time || '';
-      const avatar = item.avatar || 'https://avatars.githubusercontent.com/u/0?v=4';
-      return `
-        <div class="comment-item">
-          <img class="comment-avatar" src="${avatar}" alt="avatar" onerror="this.style.visibility='hidden';" />
-          <div>
-            <div class="comment-meta">
-              <span class="comment-name">${safeName}</span>
-              <span>${timeText}</span>
-            </div>
-            <div>${safeText}</div>
-          </div>
-        </div>
-      `;
-    }).join('');
+    
+    // 方法3: 尝试从 BSCScan (需要 API Key，这里仅作示例)
+    // 如果没有 API Key，可以尝试直接解析 BSCScan 页面或使用其他公开 API
+    
+    return null;
   }
 
-  function addComment(event) {
-    event.preventDefault();
-    const nameInput = document.getElementById('commentName');
-    const avatarInput = document.getElementById('commentAvatar');
-    const textInput = document.getElementById('commentText');
-    if (!textInput || !textInput.value.trim()) {
-      alert('请先输入评论内容');
-      return;
-    }
-    const list = loadComments();
-    list.unshift({
-      name: nameInput.value.trim() || '匿名用户',
-      avatar: avatarInput.value.trim(),
-      text: textInput.value.trim(),
-      time: new Date().toLocaleString('zh-CN'),
-    });
-    // 只保留最近 50 条
-    if (list.length > 50) list.length = 50;
-    saveComments(list);
-    nameInput.value = '';
-    avatarInput.value = '';
-    textInput.value = '';
-    renderComments();
+  // 维护页面数据加载
+  async function loadMaintenanceData() {
+    // 设置合约地址
+    document.getElementById('maintCA').innerText = CONTRACT;
+    
+    // 设置社区链接
+    document.getElementById('maintTG').href = TG_LINK;
+    document.getElementById('maintTwitter').href = TWITTER_LINK;
+    
+    // 价格和持有人数已删除，不再加载
   }
+  
+  // 页面加载时执行
+  loadMaintenanceData();
+  setInterval(loadMaintenanceData, 30000); // 每30秒更新一次
+</script>
 
-  // 初始渲染评论列表
-  renderComments();
+<!-- Giscus 评论系统（基于 GitHub Discussions，适合 GitHub Pages） -->
+<script src="https://giscus.app/client.js"
+        data-repo="emiarowhile/tianxuan"
+        data-repo-id=""
+        data-category="Announcements"
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
 </script>
 
 </body>
