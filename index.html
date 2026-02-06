@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TAXFIELD | 税场</title>
+  <meta name="description" content="TAXFIELD（税场）是一个基于链上税收机制的实验性代币项目，通过不同税率规则来引导用户行为。"/>
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #121212;
+      --bg-tertiary: #1a1a1a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --text-muted: #666;
+      --accent: #4a9eff;
+      --accent-dim: #2a5a8f;
+      --border: #2a2a2a;
+      --border-light: #333;
+      --rule-line: #3a3a3a;
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "SF Pro Text", sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      font-size: 16px;
+    }
+    
+    /* Header */
+    header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      background: rgba(18, 18, 18, 0.95);
+    }
+    
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+    }
+    
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      transition: color 0.2s ease;
+      position: relative;
+      padding: 0.3rem 0;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero Section */
+    .hero {
+      margin-top: 80px;
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    
+    .hero .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .hero .core-concept {
+      font-size: 1.5rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 3rem;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: 0.02em;
+    }
+    
+    /* Main Content */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      flex: 1;
+      width: 100%;
+    }
+    
+    section {
+      margin-bottom: 6rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    section:last-child {
+      border-bottom: none;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 1px;
+      background: var(--accent);
+    }
+    
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 2rem 0 1rem;
+      letter-spacing: 0.02em;
+    }
+    
+    p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    
+    .emphasis {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    
+    .highlight {
+      color: var(--accent);
+    }
+    
+    /* Mechanism Cards */
+    .mechanism-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    
+    .mechanism-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .mechanism-card:hover {
+      border-color: var(--border-light);
+    }
+    
+    .mechanism-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    
+    .mechanism-card p {
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+    
+    /* Rules List */
+    .rules-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+    
+    .rules-list li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule-line);
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    
+    .rules-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .rules-list li::before {
+      content: '—';
+      color: var(--accent-dim);
+      margin-right: 1rem;
+    }
+    
+    /* Roadmap */
+    .roadmap-item {
+      margin: 2.5rem 0;
+      padding-left: 2rem;
+      border-left: 2px solid var(--border);
+      position: relative;
+    }
+    
+    .roadmap-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 0.5rem;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    
+    .roadmap-item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+    
+    .roadmap-item p {
+      margin-top: 0.5rem;
+    }
+    
+    /* Contract Box */
+    .contract-box {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin: 2rem 0;
+      font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+      word-break: break-all;
+      text-align: center;
+    }
+    
+    .contract-box strong {
+      display: block;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .contract-box .address {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    /* BNB Balance Display */
+    .balance-box {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .balance-box .label {
+      display: block;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .balance-box .amount {
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--accent);
+      font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+      margin-bottom: 0.5rem;
+    }
+    
+    .balance-box .unit {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-left: 0.5rem;
+    }
+    
+    .balance-box .address {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+      margin-top: 1rem;
+      word-break: break-all;
+    }
+    
+    .balance-box .loading {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    .balance-box .error {
+      color: #ff6b6b;
+      font-size: 0.9rem;
+    }
+    
+    /* 链上数据流动特效 - 极简克制风格 */
+    .balance-box .loading-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .balance-box.loading .loading-effect {
+      opacity: 1;
+    }
+    
+    /* 流动网格线条 */
+    .loading-effect::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(90deg, transparent 0%, rgba(74, 158, 255, 0.08) 50%, transparent 100%),
+        linear-gradient(0deg, transparent 0%, rgba(74, 158, 255, 0.08) 50%, transparent 100%);
+      background-size: 40px 40px;
+      background-position: 0 0;
+      animation: gridFlow 3s linear infinite;
+      opacity: 0.6;
+    }
+    
+    @keyframes gridFlow {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 40px 40px;
+      }
+    }
+    
+    /* 数据流线条 */
+    .data-stream {
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(74, 158, 255, 0.2) 20%,
+        rgba(74, 158, 255, 0.35) 50%,
+        rgba(74, 158, 255, 0.2) 80%,
+        transparent 100%
+      );
+      opacity: 0.5;
+    }
+    
+    .data-stream.stream-1 {
+      left: 20%;
+      animation: streamFlow 2.5s ease-in-out infinite;
+    }
+    
+    .data-stream.stream-2 {
+      left: 50%;
+      animation: streamFlow 3s ease-in-out infinite 0.5s;
+    }
+    
+    .data-stream.stream-3 {
+      left: 80%;
+      animation: streamFlow 2.8s ease-in-out infinite 1s;
+    }
+    
+    @keyframes streamFlow {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      50% {
+        transform: translateY(0%);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+    }
+    
+    /* 闪烁光点 - 极简克制 */
+    .data-point {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(74, 158, 255, 0.6);
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(74, 158, 255, 0.4);
+    }
+    
+    .data-point.point-1 {
+      top: 15%;
+      left: 15%;
+      animation: pointFlicker 4s ease-in-out infinite;
+    }
+    
+    .data-point.point-2 {
+      top: 30%;
+      right: 20%;
+      animation: pointFlicker 4.5s ease-in-out infinite 1s;
+    }
+    
+    .data-point.point-3 {
+      bottom: 25%;
+      left: 25%;
+      animation: pointFlicker 5s ease-in-out infinite 2s;
+    }
+    
+    .data-point.point-4 {
+      bottom: 20%;
+      right: 15%;
+      animation: pointFlicker 4.2s ease-in-out infinite 1.5s;
+    }
+    
+    .data-point.point-5 {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 3px;
+      height: 3px;
+      background: rgba(74, 158, 255, 0.5);
+      box-shadow: 0 0 6px rgba(74, 158, 255, 0.5);
+      animation: pointFlicker 3s ease-in-out infinite;
+    }
+    
+    @keyframes pointFlicker {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(1);
+      }
+      10% {
+        opacity: 0.6;
+        transform: scale(1.3);
+      }
+      20% {
+        opacity: 0;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0;
+      }
+      60% {
+        opacity: 0.5;
+        transform: scale(1.2);
+      }
+      70% {
+        opacity: 0;
+        transform: scale(1);
+      }
+    }
+    
+    .data-point.point-5 {
+      animation-name: pointFlickerCenter;
+    }
+    
+    @keyframes pointFlickerCenter {
+      0%, 100% {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+    }
+    
+    /* 中心数据节点 */
+    .loading-effect::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 4px;
+      height: 4px;
+      background: rgba(74, 158, 255, 0.3);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(74, 158, 255, 0.25);
+      animation: nodePulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes nodePulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0.5;
+      }
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-link:hover {
+      color: var(--accent);
+    }
+    
+    .footer-disclaimer {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      nav {
+        gap: 1.5rem;
+      }
+      
+      .hero {
+        margin-top: 120px;
+        padding: 4rem 1.5rem 3rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero .subtitle {
+        font-size: 1rem;
+      }
+      
+      .hero .core-concept {
+        font-size: 1.2rem;
+        padding: 1.5rem;
+      }
+      
+      main {
+        padding: 3rem 1.5rem;
+      }
+      
+      section {
+        margin-bottom: 4rem;
+        padding: 2rem 0;
+      }
+      
+      h2 {
+        font-size: 1.6rem;
+      }
+      
+      .mechanism-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .balance-box .amount {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero .core-concept {
+        font-size: 1.1rem;
+      }
+      
+      h2 {
+        font-size: 1.4rem;
+      }
+      
+      .roadmap-item {
+        padding-left: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="nav-brand">
+      <div>
+        <div class="brand-title">TAXFIELD</div>
+        <div class="brand-subtitle">税场</div>
+      </div>
+    </a>
+    <nav>
+      <a href="#philosophy" class="nav-link">理念</a>
+      <a href="#mechanism" class="nav-link">机制</a>
+      <a href="#tax-pool" class="nav-link">税池</a>
+      <a href="#events" class="nav-link">事件</a>
+      <a href="#rules" class="nav-link">规则</a>
+      <a href="#roadmap" class="nav-link">路线</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>TAXFIELD</h1>
+    <div class="subtitle">税场</div>
+    <div class="core-concept">
+      税不是惩罚，而是规则<br>
+      行为决定成本
+    </div>
+  </div>
+
+  <main>
+    <section id="philosophy">
+      <h2>项目理念</h2>
+      <p>
+        在传统的代币模型中，项目方通过锁仓、黑名单或人为干预来影响市场行为。这些机制往往缺乏透明度，且依赖中心化的决策。
+      </p>
+      <p>
+        <span class="emphasis">TAXFIELD 采用不同的路径：通过链上税收机制来引导用户行为。</span>每一笔交易都会根据其性质自动计算税率，无需人工干预，无需特殊权限。
+      </p>
+      <p>
+        我们相信，<span class="highlight">规则本身就能塑造行为</span>。当你卖出时，税率会告诉你系统的偏好；当你长期持有时，系统会以更低的成本奖励你的行为。
+      </p>
+      <p>
+        <span class="emphasis">没有锁仓，没有黑名单，没有人为分配。</span>只有规则，只有系统，只有链上可见的机制。
+      </p>
+    </section>
+
+    <section id="mechanism">
+      <h2>税收机制</h2>
+      <p>
+        税收机制根据交易的方向和时间自动调整税率。不同的行为会触发不同的税率，这是系统引导用户的方式。
+      </p>
+      
+      <div class="mechanism-grid">
+        <div class="mechanism-card">
+          <h3>方向税</h3>
+          <p>
+            卖出操作与转账操作适用不同的税率。系统通过这种差异来区分交易意图，引导资金流向。
+          </p>
+        </div>
+        
+        <div class="mechanism-card">
+          <h3>时间税</h3>
+          <p>
+            急卖与长期持有面临不同的税率。持有时间越长，交易成本越低。这是系统对长期参与者的奖励机制。
+          </p>
+        </div>
+        
+        <div class="mechanism-card">
+          <h3>行为差异</h3>
+          <p>
+            你的行为决定了你的成本。系统通过税率差异来引导用户做出符合长期利益的选择，而非短期投机。
+          </p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.95rem;">
+        所有税率规则均在链上执行，公开透明，不可篡改。任何人都可以查看代码，理解规则，做出自己的判断。
+      </p>
+    </section>
+
+    <section id="tax-pool">
+      <h2>税收去向</h2>
+      <p>
+        所有税收自动进入链上公开池，任何人都可以查看池子的状态和流向。
+      </p>
+      
+      <div class="balance-box loading" id="bnb-balance-box">
+        <div class="loading-effect">
+          <div class="data-stream stream-1"></div>
+          <div class="data-stream stream-2"></div>
+          <div class="data-stream stream-3"></div>
+          <div class="data-point point-1"></div>
+          <div class="data-point point-2"></div>
+          <div class="data-point point-3"></div>
+          <div class="data-point point-4"></div>
+          <div class="data-point point-5"></div>
+        </div>
+        <span class="label">税池 BNB 余额</span>
+        <div class="amount" id="bnb-amount">
+          <span class="loading">加载中...</span>
+        </div>
+        <div class="address" id="bnb-address">0xa685f7e193b2d952745c3f5827a75554ed4d3a3b</div>
+      </div>
+      
+      <p>
+        税池的用途由系统规则决定，而非人为分配：
+      </p>
+      <ul class="rules-list">
+        <li>奖励长期持币者</li>
+        <li>触发系统事件（当达到阈值时）</li>
+        <li>支持系统机制的持续运行</li>
+      </ul>
+      <p>
+        <span class="emphasis">透明、规则化、非人为分配。</span>每一笔税收的去向都在链上可查，每一个分配动作都由规则触发。
+      </p>
+    </section>
+
+    <section id="events">
+      <h2>系统事件</h2>
+      <p>
+        当税池达到预设阈值时，系统会自动触发事件。这些事件不是人为决定的，而是规则的自然结果。
+      </p>
+      <p>
+        可能的事件类型包括：
+      </p>
+      <ul class="rules-list">
+        <li>随机空投给符合条件的持币者</li>
+        <li>奖励长期持有者</li>
+        <li>其他由规则定义的系统反应</li>
+      </ul>
+      <p>
+        这些事件是<span class="highlight">系统自动反应</span>，而非项目方的营销手段。当条件满足时，事件自动发生；当条件不满足时，系统保持静默。
+      </p>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 2rem;">
+        事件的具体规则和触发条件均在合约中定义，可公开审查。
+      </p>
+    </section>
+
+    <section id="rules">
+      <h2>规则与声明</h2>
+      <p>
+        在参与 TAXFIELD 之前，请理解以下规则和声明：
+      </p>
+      <ul class="rules-list">
+        <li>
+          <span class="emphasis">不保证收益：</span>TAXFIELD 是一个实验性项目，不承诺任何投资回报。参与即意味着接受风险。
+        </li>
+        <li>
+          <span class="emphasis">实验性质：</span>这是一个探索链上税收机制可能性的实验。机制可能调整，规则可能演进。
+        </li>
+        <li>
+          <span class="emphasis">理性参与：</span>我们鼓励理解规则后再参与，而非盲目跟风。只有理解机制，才能做出理性决策。
+        </li>
+        <li>
+          <span class="emphasis">规则优先：</span>系统运行完全依赖规则，不依赖项目方的个人判断或干预。
+        </li>
+        <li>
+          <span class="emphasis">风险自担：</span>所有参与行为均为个人选择，需自行承担相应风险。
+        </li>
+      </ul>
+    </section>
+
+    <section id="roadmap">
+      <h2>路线图</h2>
+      <p>
+        以下是 TAXFIELD 的发展阶段，不设具体时间表，以机制完善为节点：
+      </p>
+      
+      <div class="roadmap-item">
+        <h3>V1：基础税收规则</h3>
+        <p>
+          实现方向税和时间税的基础机制，建立链上税收系统的基本框架。
+        </p>
+      </div>
+      
+      <div class="roadmap-item">
+        <h3>V2：事件系统</h3>
+        <p>
+          当税池达到阈值时，自动触发系统事件，实现规则驱动的奖励机制。
+        </p>
+      </div>
+      
+      <div class="roadmap-item">
+        <h3>V3：机制扩展</h3>
+        <p>
+          基于前期运行数据，探索更多税收机制的可能性，完善系统规则。
+        </p>
+      </div>
+      
+      <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.95rem;">
+        路线图是方向性的指引，具体实施将根据系统运行情况和社区反馈进行调整。
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://x.com/BSC_ShuiChang" target="_blank" class="footer-link" rel="noopener">Twitter</a>
+    </div>
+    
+    <div class="contract-box">
+      <strong>合约地址</strong>
+      <div class="address">0x0000000000000000000000000000000000000000</div>
+    </div>
+    
+    <div class="footer-disclaimer">
+      TAXFIELD 是一个实验性项目。参与前请充分理解机制和风险。<br>
+      本网站不构成任何投资建议。请理性参与，风险自担。
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    const header = document.querySelector('header');
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 50) {
+        header.style.borderBottomColor = 'var(--border-light)';
+      } else {
+        header.style.borderBottomColor = 'var(--border)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+    
+    // 导航链接激活状态
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    function updateActiveNav() {
+      let current = '';
+      const scrollY = window.pageYOffset;
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        const sectionHeight = section.clientHeight;
+        
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === '#' + current) {
+          link.style.color = 'var(--accent)';
+        } else {
+          link.style.color = '';
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateActiveNav);
+    window.addEventListener('load', updateActiveNav);
+    
+    // 平滑滚动
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const targetSection = document.getElementById(targetId);
+          
+          if (targetSection) {
+            const headerHeight = header.offsetHeight;
+            const targetPosition = targetSection.offsetTop - headerHeight - 20;
+            
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }
+      });
+    });
+    
+    // 获取BNB余额
+    async function getBNBBalance(address) {
+      const balanceBox = document.getElementById('bnb-balance-box');
+      const amountElement = document.getElementById('bnb-amount');
+      
+      // 显示加载特效
+      balanceBox.classList.add('loading');
+      amountElement.innerHTML = '<span class="loading">加载中...</span>';
+      
+      // BSC RPC节点列表（多个备选）
+      const rpcUrls = [
+        'https://bsc-dataseed.binance.org/',
+        'https://bsc-dataseed1.defibit.io/',
+        'https://bsc-dataseed1.ninicoin.io/'
+      ];
+      
+      // 格式化余额显示
+      function formatBalance(balanceBNB) {
+        if (balanceBNB >= 1000) {
+          return balanceBNB.toLocaleString('zh-CN', {
+            maximumFractionDigits: 4
+          });
+        } else if (balanceBNB >= 1) {
+          return balanceBNB.toLocaleString('zh-CN', {
+            maximumFractionDigits: 6
+          });
+        } else {
+          return balanceBNB.toLocaleString('zh-CN', {
+            maximumFractionDigits: 8
+          });
+        }
+      }
+      
+      // 尝试每个RPC节点
+      for (const rpcUrl of rpcUrls) {
+        try {
+          const response = await fetch(rpcUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              jsonrpc: '2.0',
+              method: 'eth_getBalance',
+              params: [address, 'latest'],
+              id: 1
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.error) {
+            throw new Error(data.error.message);
+          }
+          
+          if (data.result) {
+            // 将wei转换为BNB (1 BNB = 10^18 wei)
+            const balanceWei = BigInt(data.result);
+            const balanceBNB = Number(balanceWei) / 1e18;
+            const formattedBalance = formatBalance(balanceBNB);
+            
+            // 延迟一下再隐藏特效，让用户看到汇聚效果
+            setTimeout(() => {
+              balanceBox.classList.remove('loading');
+              amountElement.innerHTML = `${formattedBalance}<span class="unit">BNB</span>`;
+            }, 500);
+            return; // 成功获取，退出函数
+          }
+        } catch (error) {
+          console.error(`RPC节点 ${rpcUrl} 失败:`, error);
+          continue; // 尝试下一个节点
+        }
+      }
+      
+      // 所有RPC节点都失败，显示错误信息
+      setTimeout(() => {
+        balanceBox.classList.remove('loading');
+        amountElement.innerHTML = '<span class="error">获取失败，请稍后重试</span>';
+      }, 500);
+    }
+    
+    // 页面加载时获取BNB余额
+    window.addEventListener('load', () => {
+      const taxPoolAddress = '0xa685f7e193b2d952745c3f5827a75554ed4d3a3b';
+      getBNBBalance(taxPoolAddress);
+      
+      // 每30秒自动刷新余额
+      setInterval(() => {
+        getBNBBalance(taxPoolAddress);
+      }, 30000);
+    });
+  </script>
+
+</body>
+</html>
